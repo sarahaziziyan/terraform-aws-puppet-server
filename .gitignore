@@ -1,0 +1,41 @@
+# Terraform working folder and provider downloads
+.terraform/
+
+# Reusable modules do not ship a lock file; the root configuration that calls the module owns it.
+.terraform.lock.hcl
+
+# State, plans and crash logs (created only if someone applies this folder directly)
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+*tfplan*
+crash.log
+crash.*.log
+
+# Variable files and local overrides can hold secrets
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration (may contain credentials/tokens)
+.terraformrc
+terraform.rc
+
+# Keys and credentials
+*.pem
+*.key
+*.ppk
+id_rsa*
+*.pfx
+.env
+.env.*
+*credentials*
+
+# macOS and editors
+.DS_Store
+.vscode/
+.idea/
+*.swp
