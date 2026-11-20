@@ -1,0 +1,24 @@
+# release-please reads the Conventional Commit messages merged to main and keeps a release
+# pull request open with the next version and its CHANGELOG. Merging that pull request
+# creates the vX.Y.Z tag and a GitHub Release.
+#   fix: ...                         -> patch (v1.0.1)
+#   feat: ...                        -> minor (v1.1.0)
+#   feat!: ... or BREAKING CHANGE:   -> major (v2.0.0)
+name: release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

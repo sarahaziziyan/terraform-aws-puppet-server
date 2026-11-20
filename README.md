@@ -30,7 +30,7 @@ Web nodes must:
 
 ```hcl
 module "puppet_server" {
-  source = "git::https://github.com/sarahaziziyan/terraform-aws-puppet-server.git?ref=v1.0.0"
+  source = "git::https://github.com/sarahaziziyan/terraform-aws-puppet-server.git?ref=v1.0.0" # x-release-please-version
 
   vpc_id                = "vpc-0123456789abcdef0"
   subnet_id             = "subnet-0aaaaaaaaaaaaaaa1"
@@ -84,3 +84,25 @@ The unit tests mock AWS, so they need no credentials and create nothing.
 terraform init
 terraform test
 ```
+
+GitHub Actions runs `terraform fmt -check`, `terraform validate` and `terraform test` on every pull request (`.github/workflows/test.yml`).
+
+## Releases
+
+Versions follow [Semantic Versioning](https://semver.org/) and are created by [release-please](https://github.com/googleapis/release-please) (`.github/workflows/release.yml`). Nobody creates tags by hand.
+
+1. Merge pull requests to `main` with [Conventional Commit](https://www.conventionalcommits.org/) titles:
+
+   | Title | Release |
+   |---|---|
+   | `fix: ...` | Patch, e.g. `v1.0.1` |
+   | `feat: ...` | Minor, e.g. `v1.1.0` |
+   | `feat!: ...`, `fix!: ...` or a `BREAKING CHANGE:` footer | Major, e.g. `v2.0.0` |
+   | `docs:`, `test:`, `ci:`, `chore:`, `refactor:` | No release on their own |
+
+2. release-please keeps a pull request named `chore(main): release ...` open, with the next version and the `CHANGELOG.md` entry.
+3. Merge that pull request when you want to release. It creates the tag and a GitHub Release, and updates the version in the usage example above.
+
+A change is **breaking** if it renames or removes an input or output, adds a required input, or makes Terraform replace `aws_instance.puppet_master` (a new server has a new certificate authority, so every node must be replaced).
+
+Never move or delete a published tag; release a new version instead.
